@@ -4,7 +4,9 @@ import axios from 'axios';
 req: id
 res: [item] 해당 id의 item 전체 list
 */
-export const getItemLists = async id => axios.post('/items', { id });
+export const getItems = async id => axios.post('/items', { id });
+
+export const updateItem = async item => axios.post('/item/update', { item });
 
 /*
 req: name, id, passwd

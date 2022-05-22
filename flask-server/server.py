@@ -1,10 +1,21 @@
+from crypt import methods
 from flask import Flask, request, render_template, session, url_for, redirect
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask("__main__")
+db = SQLAlchemy()
+
+app = Flask("__name__")
 
 @app.route("/")
 def my_index():
     return render_template("index.html")
+
+@app.route("/", methods=['GET'])
+def return_index():
+    return {
+        'name': "hello world!"
+    }
+
 '''
 @app.route('/register', methods=['GET', 'POST'])
 def register():

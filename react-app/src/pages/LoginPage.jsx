@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -11,7 +11,6 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 
 import { loginUser, userSelector } from '../modules/user';
 
@@ -107,9 +106,7 @@ function LoginPage() {
             로그인
           </Button>
           <Grid item sx={{ float: 'right', p: 1 }}>
-            <Link href="/register" variant="body2">
-              회원가입
-            </Link>
+            <Link to="/register">회원가입</Link>
           </Grid>
         </Box>
       </Box>

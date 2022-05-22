@@ -6,12 +6,14 @@ import PrivateRoute from './lib/hoc/PrivateRoute';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
+import CategoryPage from './pages/CategoryPage';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<PrivateRoute />}>
+      <Route element={<PrivateRoute />}>
         <Route path="/" element={<MainPage />} />
+        <Route path="/category/:categoryName" element={<CategoryPage />} />
       </Route>
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />

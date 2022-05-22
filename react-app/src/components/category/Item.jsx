@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
@@ -6,58 +7,67 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Avatar from '@mui/material/Avatar';
 import Slider from '@mui/material/Slider';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
+
+import categorys from '../../public/category';
+import { updateItemConsumption } from '../../modules/items';
 
 function Item(props) {
-  const { item } = props;
+  const dispatch = useDispatch();
+  const { item, setModalItem, handleOpen } = props;
 
-  const [bgColor, setBgColor] = useState('');
+  const [consumptionRate, setConsumptionRate] = useState(
+    item.consumptionRate * 100,
+  );
 
-  useEffect(() => {
-    const start = item.mfgDate.getTime();
-    const end = item.expDate.getTime();
-    const now = Date.now();
-    const elapsedRate = (end - now) / (end - start);
-    if (elapsedRate < 0.1) {
-      setBgColor('#ffa19950');
-    } else if (elapsedRate < 0.3) {
-      setBgColor('#ffda9950');
-    } else {
-      setBgColor('#d6ffa650');
-    }
-  });
+  let bgColor;
+  if (item.elapsedRate < 0.1) {
+    bgColor = 'expire10';
+  } else if (item.elapsedRate < 0.3) {
+    bgColor = 'expire30';
+  } else {
+    bgColor = 'safe';
+  }
+
+  const handleChange = (event, newValue) => {
+    setConsumptionRate(newValue);
+  };
+
+  const updateConsumptionRate = (event, newValue) => {
+    const newRate = newValue / 100;
+    dispatch(updateItemConsumption({ key: item.key, newRate }));
+  };
 
   return (
     <CardActionArea
       onClick={() => {
-        console.log('clicked');
+        setModalItem(item);
+        handleOpen();
       }}
-      sx={{ marginBottom: '10px' }}
+      sx={{ mb: 1 }}
     >
       <Card
         sx={{
-          backgroundColor: bgColor,
+          bgcolor: `${bgColor}.lighter`,
+          p: 1,
+          m: 1,
         }}
       >
         <Box
           sx={{
             height: '15vh',
             display: 'flex',
-            backgroundColor: bgColor,
           }}
         >
           <CardMedia
+            component="img"
+            src={process.env.PUBLIC_URL + categorys[item.category].img}
             sx={{
               height: '15vh',
               width: '15vh',
-              p: 1,
-              flexShrink: 0,
             }}
-          >
-            <Avatar src={item.image} sx={{ width: 1, height: 1 }} />
-          </CardMedia>
+          />
           <CardContent
             sx={{
               height: '15vh',
@@ -69,28 +79,23 @@ function Item(props) {
               {item.name}
             </Typography>
             <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-              {item.expDate.getMonth() + 1}월 {item.expDate.getDate()}일
+              {new Date(item.expDate).getMonth() + 1}월{' '}
+              {new Date(item.expDate).getDate()}일
             </Typography>
             <Typography variant="subtitle2" color="text.secondary">
-              {item.mfgDate.getMonth() + 1}월 {item.mfgDate.getDate()}일
+              {new Date(item.mfgDate).getMonth() + 1}월{' '}
+              {new Date(item.mfgDate).getDate()}일
             </Typography>
-            <Typography variant="subtitle1" noWrap="true">
+            <Typography variant="subtitle1" noWrap>
               {item.memo}
             </Typography>
           </CardContent>
         </Box>
-        <Box sx={{ display: 'flex' }}>
-          {item.countable && (
-            <Typography
-              variant="subtitle1"
-              sx={{ fontWeight: 'bold', width: '10vw' }}
-            >
-              {item.curVol}
-            </Typography>
-          )}
+        <Box sx={{ paddingX: 1 }}>
           <Slider
-            value={(item.curVol / item.totalVol) * 100}
-            sx={{ paddingX: 1 }}
+            value={consumptionRate}
+            onChange={handleChange}
+            onChangeCommitted={updateConsumptionRate}
           />
         </Box>
       </Card>
@@ -100,16 +105,19 @@ function Item(props) {
 
 Item.propTypes = {
   item: PropTypes.shape({
+    key: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
-    expDate: PropTypes.instanceOf(Date).isRequired,
-    mfgDate: PropTypes.instanceOf(Date).isRequired,
+    expDate: PropTypes.string.isRequired,
+    mfgDate: PropTypes.string.isRequired,
     memo: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
     totalVol: PropTypes.number.isRequired,
     curVol: PropTypes.number.isRequired,
-    countable: PropTypes.bool.isRequired,
+    elapsedRate: PropTypes.number.isRequired,
+    consumptionRate: PropTypes.number.isRequired,
   }).isRequired,
+  setModalItem: PropTypes.func.isRequired,
+  handleOpen: PropTypes.func.isRequired,
 };
 
 export default Item;

@@ -7,10 +7,25 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
 import { grey } from '@mui/material/colors';
-import category from '../../public/category';
+import categorys from '../../public/category';
 
 function PriorItem(props) {
   const { item, type } = props;
+
+  let bgColor;
+  if (type === 'expired') {
+    if (item.leftDate < 3) {
+      bgColor = 'expire10';
+    } else {
+      bgColor = 'expire30';
+    }
+  } else {
+    if (item.consumptionRate < 0.1) {
+      bgColor = 'expire10';
+    } else {
+      bgColor = 'expire30';
+    }
+  }
 
   return (
     <Box sx={{ width: '30vw', height: '40vw', m: 2 }}>
@@ -20,7 +35,7 @@ function PriorItem(props) {
             ? `D${item.leftDate < 0 ? '+' : '-'}${Math.abs(item.leftDate)}`
             : `${item.consumptionRate * 100}%`
         }
-        color="primary"
+        color={bgColor}
         sx={{
           '& .MuiBadge-badge': {
             fontSize: '1.25rem',
@@ -31,7 +46,7 @@ function PriorItem(props) {
       >
         <Avatar
           sx={{ width: '30vw', height: '30vw', bgcolor: grey[300] }}
-          src={process.env.PUBLIC_URL + category[item.category].img}
+          src={process.env.PUBLIC_URL + categorys[item.category].img}
         />
       </Badge>
       <Box
@@ -56,6 +71,7 @@ PriorItem.propTypes = {
     name: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
     leftDate: PropTypes.number.isRequired,
+    elapsedRate: PropTypes.number.isRequired,
     consumptionRate: PropTypes.number.isRequired,
   }).isRequired,
   type: PropTypes.string.isRequired,

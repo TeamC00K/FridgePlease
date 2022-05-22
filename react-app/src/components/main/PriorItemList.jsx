@@ -12,18 +12,13 @@ function PriorItemList(props) {
   const [scarceItems, setScarceItems] = useState([]);
 
   useEffect(() => {
-    let tmpList = itemList.filter(item => item.elapsedRate < 0.2);
+    let tmpList = itemList.filter(item => item.elapsedRate < 0.3);
     tmpList.sort((a, b) => a.leftDate - b.leftDate);
     setExpiredItems(tmpList);
-    tmpList = itemList.filter(item => item.consumptionRate < 0.2);
+    tmpList = itemList.filter(item => item.consumptionRate < 0.3);
     tmpList.sort((a, b) => a.consumptionRate - b.consumptionRate);
     setScarceItems(tmpList);
   }, [itemList]);
-
-  useEffect(() => {
-    console.log('유통기한 임박:', expiredItems);
-    console.log('거의 다 소모', scarceItems);
-  }, [expiredItems, scarceItems]);
 
   // key value 수정 필요
   return (
@@ -37,6 +32,9 @@ function PriorItemList(props) {
     >
       {expiredItems.map((item, index) => (
         <PriorItem key={index} item={item} type="expired" />
+      ))}
+      {scarceItems.map((item, index) => (
+        <PriorItem key={index} item={item} type="scarce" />
       ))}
     </Box>
   );

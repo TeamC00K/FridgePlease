@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -10,7 +9,7 @@ import Category from '../components/main/Category';
 import BottomNav from '../components/public/BottomNav';
 
 import { userSelector } from '../modules/user';
-import { initItmeLists, itemSelector } from '../modules/items';
+import { initItems, itemSelector } from '../modules/items';
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -18,12 +17,14 @@ function MainPage() {
   const { itemList, isSuccess } = useSelector(itemSelector);
 
   useEffect(() => {
-    dispatch(initItmeLists(id));
-  }, [dispatch]);
+    if (!isSuccess) {
+      dispatch(initItems(id));
+    }
+  }, []);
 
   return (
     <>
-      <Header title="" type="main" />
+      <Header title=" " type="main" />
       {isSuccess && <PriorItemList itemList={itemList} />}
       <SearchBar />
       <Menu />

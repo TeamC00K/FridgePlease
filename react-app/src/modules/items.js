@@ -1,12 +1,16 @@
+/* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getItemLists } from '../lib/api/item';
+import {
+  getItems as getItemsApi,
+  updateItem as updateItemApi,
+} from '../lib/api/item';
 
-export const initItmeLists = createAsyncThunk(
-  'items/initItmeLists',
+export const initItems = createAsyncThunk(
+  'items/initItems',
   async (id, thunkAPI) => {
     try {
-      const response = await getItemLists(id);
+      const response = await getItemsApi(id);
       const { data } = response;
       if (response.status === 200) {
         return { ...data };
@@ -29,13 +33,21 @@ export const itemSlice = createSlice({
     errorMessage: '',
   },
   reducers: {
-    // Reducer comes here
+    updateItemConsumption(state, { payload }) {
+      const { itemList } = state;
+      const { key, newRate } = payload;
+      console.log(key);
+      const index = itemList.findIndex(item => item.key === key);
+      itemList[index].consumptionRate = newRate;
+      updateItemApi(itemList[index]);
+    },
   },
   extraReducers: {
-    [initItmeLists.fulfilled]: (state, { payload }) => {
+    [initItems.fulfilled]: (state, { payload }) => {
       const tmpList = [];
       state.isFetching = false;
       state.isSuccess = true;
+      console.log(payload);
       for (const [, item] of Object.entries(payload)) {
         const start = new Date(item.mfgDate);
         const end = new Date(item.expDate);
@@ -45,25 +57,27 @@ export const itemSlice = createSlice({
         const leftDate = Math.ceil(
           (end.getTime() - now) / (1000 * 60 * 60 * 24),
         );
-        const consumptionRate = item.curVol / item.totalVol;
+        const curVol = item.totalVol * item.consumptionRate;
         tmpList.push({
           ...item,
           elapsedRate,
           leftDate,
-          consumptionRate,
+          curVol,
         });
         state.itemList = tmpList;
       }
     },
-    [initItmeLists.pending]: state => {
+    [initItems.pending]: state => {
       state.isFetching = true;
     },
-    [initItmeLists.rejected]: (state, { payload }) => {
+    [initItems.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload.message;
     },
   },
 });
+
+export const { updateItemConsumption } = itemSlice.actions;
 
 export const itemSelector = state => state.items;
