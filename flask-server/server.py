@@ -16,6 +16,10 @@ def return_index():
         'name': "hello world!"
     }
 
+@app.route("/login")
+def my_index():
+    print("login")
+    return "login"
 '''
 @app.route('/register', methods=['GET', 'POST'])
 def register():
