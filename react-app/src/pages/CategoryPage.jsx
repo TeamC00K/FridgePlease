@@ -1,17 +1,13 @@
-/* eslint-disable no-else-return */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import Modal from '@mui/material/Modal';
 import Header from '../components/public/Header';
 import CategoryBar from '../components/category/CategoryBar';
 import SubCategoryBar from '../components/category/SubCategoryBar';
 import Item from '../components/category/Item';
 import BottomNav from '../components/public/BottomNav';
 
-import DetailPage from './DetailPage';
 import { itemSelector } from '../modules/items';
 import categorys from '../public/category';
 
@@ -24,11 +20,6 @@ function CategoryPage() {
   const [sortBy, setSortBy] = useState({ type: 'leftDate', asc: true });
   const [subCategory, setSubCategory] = useState('');
 
-  const [open, setOpen] = useState(false);
-  const [modalItem, setModalItem] = useState();
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   useEffect(() => {
     const tmpList = itemList.filter(item => item.category === categoryName);
     setSelectedList(tmpList);
@@ -36,38 +27,37 @@ function CategoryPage() {
   }, [categoryName]);
 
   useEffect(() => {
-    console.log(sortBy, subCategory);
     let tmpList;
     if (subCategory) {
       tmpList = selectedList.filter(item => item.subCategory === subCategory);
     } else {
       tmpList = selectedList;
     }
-    console.log('before', tmpList);
     tmpList = tmpList.sort((a, b) => {
       if (sortBy.type === 'leftDate') {
         if (sortBy.asc) {
           return a.leftDate - b.leftDate;
-        } else {
-          return b.leftDate - a.leftDate;
         }
-      } else if (sortBy.type === 'mfgDate') {
+        return b.leftDate - a.leftDate;
+      }
+      if (sortBy.type === 'mfgDate') {
+        const aMfgDate = new Date(a.mfgDate);
+        const bMfgDate = new Date(b.mfgDate);
         if (sortBy.asc) {
-          return a.mfgDate - b.mfgDate;
-        } else {
-          return b.mfgDate - a.mfgDate;
+          return aMfgDate - bMfgDate;
         }
-      } else if (sortBy.type === 'consumptionRate') {
+        return bMfgDate - aMfgDate;
+      }
+      if (sortBy.type === 'consumptionRate') {
         if (sortBy.asc) {
           return a.consumptionRate - b.consumptionRate;
-        } else {
-          return b.consumptionRate - a.consumptionRate;
         }
+        return b.consumptionRate - a.consumptionRate;
       }
       return 0;
     });
-    console.log('after', tmpList);
     setProcessedList(tmpList);
+    console.log(tmpList);
   }, [selectedList, sortBy, subCategory]);
 
   // 이슈
@@ -87,16 +77,8 @@ function CategoryPage() {
         curCategory={categoryName}
       />
       {processedList.map(item => (
-        <Item
-          key={item.key}
-          item={item}
-          setModalItem={setModalItem}
-          handleOpen={handleOpen}
-        />
+        <Item key={item.key} item={item} />
       ))}
-      <Modal open={open} onClose={handleClose}>
-        <DetailPage item={modalItem} />
-      </Modal>
       <BottomNav />
     </>
   );

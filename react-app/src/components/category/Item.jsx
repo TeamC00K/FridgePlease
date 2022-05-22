@@ -9,13 +9,19 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
+import DetailPage from '../../pages/DetailPage';
 import categorys from '../../public/category';
 import { updateItemConsumption } from '../../modules/items';
 
 function Item(props) {
   const dispatch = useDispatch();
-  const { item, setModalItem, handleOpen } = props;
+  const { item } = props;
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const [consumptionRate, setConsumptionRate] = useState(
     item.consumptionRate * 100,
@@ -40,66 +46,69 @@ function Item(props) {
   };
 
   return (
-    <CardActionArea
-      onClick={() => {
-        setModalItem(item);
-        handleOpen();
-      }}
-      sx={{ mb: 1 }}
-    >
-      <Card
-        sx={{
-          bgcolor: `${bgColor}.lighter`,
-          p: 1,
-          m: 1,
-        }}
-      >
-        <Box
+    <>
+      <Modal open={open} onClose={handleClose}>
+        <DetailPage item={item} />
+      </Modal>
+      <CardActionArea onClick={handleOpen} sx={{ mb: 1 }}>
+        <Card
           sx={{
-            height: '15vh',
-            display: 'flex',
+            bgcolor: `${bgColor}.lighter`,
+            p: 1,
+            m: 1,
           }}
         >
-          <CardMedia
-            component="img"
-            src={process.env.PUBLIC_URL + categorys[item.category].img}
+          <Box
             sx={{
               height: '15vh',
-              width: '15vh',
-            }}
-          />
-          <CardContent
-            sx={{
-              height: '15vh',
-              p: 1,
-              overflow: 'hidden',
+              display: 'flex',
             }}
           >
-            <Typography component="h2" variant="h5" sx={{ fontWeight: 'bold' }}>
-              {item.name}
-            </Typography>
-            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-              {new Date(item.expDate).getMonth() + 1}월{' '}
-              {new Date(item.expDate).getDate()}일
-            </Typography>
-            <Typography variant="subtitle2" color="text.secondary">
-              {new Date(item.mfgDate).getMonth() + 1}월{' '}
-              {new Date(item.mfgDate).getDate()}일
-            </Typography>
-            <Typography variant="subtitle1" noWrap>
-              {item.memo}
-            </Typography>
-          </CardContent>
-        </Box>
-        <Box sx={{ paddingX: 1 }}>
-          <Slider
-            value={consumptionRate}
-            onChange={handleChange}
-            onChangeCommitted={updateConsumptionRate}
-          />
-        </Box>
-      </Card>
-    </CardActionArea>
+            <CardMedia
+              component="img"
+              src={process.env.PUBLIC_URL + categorys[item.category].img}
+              sx={{
+                height: '15vh',
+                width: '15vh',
+              }}
+            />
+            <CardContent
+              sx={{
+                height: '15vh',
+                p: 1,
+                overflow: 'hidden',
+              }}
+            >
+              <Typography
+                component="h2"
+                variant="h5"
+                sx={{ fontWeight: 'bold' }}
+              >
+                {item.name}
+              </Typography>
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                {new Date(item.expDate).getMonth() + 1}월{' '}
+                {new Date(item.expDate).getDate()}일
+              </Typography>
+              <Typography variant="subtitle2" color="text.secondary">
+                {new Date(item.mfgDate).getMonth() + 1}월{' '}
+                {new Date(item.mfgDate).getDate()}일
+              </Typography>
+              <Typography variant="subtitle1" noWrap>
+                {item.memo}
+              </Typography>
+            </CardContent>
+          </Box>
+          <Box sx={{ paddingX: 1 }}>
+            <Slider
+              value={consumptionRate}
+              onChange={handleChange}
+              onChangeCommitted={updateConsumptionRate}
+            />
+          </Box>
+        </Card>
+      </CardActionArea>
+    </>
   );
 }
 
@@ -116,8 +125,6 @@ Item.propTypes = {
     elapsedRate: PropTypes.number.isRequired,
     consumptionRate: PropTypes.number.isRequired,
   }).isRequired,
-  setModalItem: PropTypes.func.isRequired,
-  handleOpen: PropTypes.func.isRequired,
 };
 
 export default Item;
