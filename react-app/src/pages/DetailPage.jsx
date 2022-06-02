@@ -40,6 +40,7 @@ const DetailPage = React.forwardRef((props, ref) => {
     const newRate = newValue / 100;
     dispatch(updateItemConsumption({ key: item.key, newRate }));
   };
+
   return (
     <Card sx={style} ref={ref} tabIndex={-1}>
       <Box

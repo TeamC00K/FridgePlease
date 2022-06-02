@@ -1,16 +1,27 @@
 import axios from 'axios';
 
 /*
+POST /item/get
 req: id
 res: [item] 해당 id의 item 전체 list
 */
-export const getItems = async id => axios.post('/items', { id });
+export const getItems = async id => axios.post('/item/get', { id });
 
+/*
+POST /item/update
+req: item 객체 (itemId값 포함)
+res: 성공여부만
+*/
 export const updateItem = async item => axios.post('/item/update', { item });
 
 /*
-req: name, id, passwd
-res: id: [user의 id값], name: [user 성명]
+POST /item/newimage
+req: formdata "file"
+res: {인식된이미지 좌표값, 라벨(이름, 카테고리, 서브카테고리), 예상 유통기한}
 */
-export const register = async ({ name, id, passwd }) =>
-  axios.post('/users/register', { name, id, passwd });
+export const sendImage = async form =>
+  axios.post('/item/newimage', form, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
