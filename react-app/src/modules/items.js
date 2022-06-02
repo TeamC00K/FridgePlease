@@ -23,6 +23,23 @@ export const initItems = createAsyncThunk(
   },
 );
 
+export const addItem = createAsyncThunk(
+  'items/addItem',
+  async (id, thunkAPI) => {
+    try {
+      const response = await getItemsApi(id);
+      const { data } = response;
+      if (response.status === 200) {
+        return { ...data };
+      }
+      return thunkAPI.rejectWithValue(data);
+    } catch (e) {
+      console.log('Error', e.response.data);
+      return thunkAPI.rejectWithValue(e.response.data);
+    }
+  },
+);
+
 export const itemSlice = createSlice({
   name: 'items',
   initialState: {
