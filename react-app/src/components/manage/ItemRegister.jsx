@@ -36,6 +36,7 @@ const ItemRegister = React.forwardRef((props, ref) => {
     imgInput.current.click();
   };
 
+  // api call 부분
   const sendImage = async () => {
     const formData = new FormData();
     formData.append('file', image);

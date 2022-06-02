@@ -17,7 +17,7 @@ export const updateItem = async item => axios.post('/item/update', { item });
 /*
 POST /item/newimage
 req: formdata "file"
-res: {인식된이미지 좌표값, 라벨(이름, 카테고리, 서브카테고리), 예상 유통기한}
+res: {이미지가 서버에 저장된 주소값, 인식된이미지 좌표값, 라벨(이름, 카테고리, 서브카테고리), 예상 유통기한}
 */
 export const sendImage = async form =>
   axios.post('/item/newimage', form, {
