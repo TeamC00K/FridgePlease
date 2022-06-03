@@ -11,8 +11,13 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(200))
     name = db.Column(db.String(100))
     __tablename__ = "user"
-    __table_args__ = {'extend_existing': True} 
+    __table_args__ = {'extend_existing': True}
 
+class Category(db.Model):
+    category = db.Column(db.String(100))
+    subCategory = db.Column(db.String(100))
+    expDate = db.Column(db.Integer)
+    countable = db.Column(db.Boolean)
 
 
 class Item(db.Model):
@@ -27,12 +32,10 @@ class Item(db.Model):
     totalVol = db.Column(db.Integer)
     consumptionRate = db.Column(db.Float)
     memo = db.Column(db.String(100))
-    img = image_attachment('itemPicture')
+    img = image_attachment('ItemPicture')
     __tablename__ = "item"
 
 class ItemPicture(db.Model, Image):
-    """User picture model."""
-
     user_id = db.Column(db.String(100), db.ForeignKey('item.itemId'))
-    user = relationship('Item')
-    __tablename__ = 'user_picture'
+    itemImg = relationship('Item', overlaps="img")
+    __tablename__ = 'itemPicture'
