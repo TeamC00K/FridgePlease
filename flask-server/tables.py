@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     __table_args__ = {'extend_existing': True}
 
 class Category(db.Model):
-    category = db.Column(db.String(100))
+    category = db.Column(db.String(100), primary_key=True)
     subCategory = db.Column(db.String(100))
     expDate = db.Column(db.Integer)
     countable = db.Column(db.Boolean)

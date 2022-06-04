@@ -2,7 +2,7 @@ from flask import Blueprint, request, Response
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 import json
-from models import User
+from tables import User
 from app import db
 
 auth = Blueprint('auth', __name__)
