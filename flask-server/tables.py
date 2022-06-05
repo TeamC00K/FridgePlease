@@ -18,10 +18,10 @@ class Category(db.Model):
     subCategory = db.Column(db.String(100))
     expDate = db.Column(db.Integer)
     countable = db.Column(db.Boolean)
-
+    imgKey = db.Column(db.String(200))
 
 class Item(db.Model):
-    itemId = db.Column(db.String(100), primary_key=True)
+    itemId = db.Column(db.String(100), primary_key=True, autoincrement=True)
     userId = db.Column(db.String(100))
     mfgDate = db.Column(db.DateTime)
     expDate = db.Column(db.DateTime)
