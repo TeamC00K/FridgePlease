@@ -1,7 +1,8 @@
 from flask import Blueprint, request, Response, jsonify
 from app import db
-from tables import Item, ItemPicture, Category
+from tables import Item, Category
 from datetime import datetime
+from datetime import timedelta
 from img_model import setup
 import boto3
 from botocore.client import Config
@@ -81,7 +82,6 @@ def getItem():
 def addnewItem():
     """
     냉장고 사진을 받아오면 사진에 있는 식료품을 인식/분류하여 DB에 저장하는 함수
-    미완성 - 모델 적용까지 완료
     req: dataForm - file에 이미지 전송
     res: {이미지가 서버에 저장된 주소값, 인식된이미지 좌표값, 라벨(이름, 카테고리, 서브카테고리), 예상 유통기한}
     """
@@ -92,26 +92,25 @@ def addnewItem():
     cors = setup.Detection(temp)
     cropped_imgs = getCropImage(temp, cors)
     category_list = []
-    
+    #temp.save("temp.jpg")
+    #img = open("temp.jpg", 'rb')
     for i in range(len(cropped_imgs)):
         cropped_imgs[i].save(str(i)+".jpg")
-        category = setup.Classification(temp)
-        category_list.append(category)
-    temp.save("temp.jpg")
-    img = open("temp.jpg", 'rb')
-    
-    S3.Bucket(BUCKET_NAME).put_object(Key=filename, Body=img, ContentType='image/jpg')
-    #crop하는 과정 추가.
-    # 커태고리 분류
-    # db.session.execute("INSERT INTO Category (category,subCategory,expDate,countable,imgKey) values('fruit', 'apple', 30 , true ,'apple')")
-    mfgDate = datetime.now()
-    print("좌표: ",cors)
-    #itemCategory = Category.query.filter_by(category=category).first()
-    #new_item = Item(userId = userId, mfgDate=mfgDate, expDate = mfgDate + itemCategory.expDate, countable = itemCategory.countable, consumptionRate = 1)
+        subCategory = setup.Classification(cropped_imgs[i])
+        category_list.append(subCategory)
+        img = open(str(i)+".jpg", 'rb')
+        #S3에 crop image 저장
+        S3.Bucket(BUCKET_NAME).put_object(Key=filename+str(i), Body=img, ContentType='image/jpg')
+        now = datetime.now()
+        # print(subCategory) #인식된 식재료 출력
+        itemCategory = Category.query.filter_by(subCategory=subCategory.lower()).first()
+        # 인식된 식재료를 DB에 저장
+        new_item = Item(userId = 'aaa', mfgDate = now, expDate = now + timedelta(days = itemCategory.expDate), category = itemCategory.category, subCategory = itemCategory.subCategory, countable = itemCategory.countable, consumptionRate = 1, imgKey = filename+str(i))
+        db.session.add(new_item)
 
     # add the new item to the database
-    #db.session.add(new_item)
-    #db.session.commit()
+    # db.session.add(new_category)
+    db.session.commit()
 
     return jsonify(cors)
 
