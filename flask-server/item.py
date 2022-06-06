@@ -83,7 +83,7 @@ def addnewItem():
     """
     냉장고 사진을 받아오면 사진에 있는 식료품을 인식/분류하여 DB에 저장하는 함수
     req: dataForm - file에 이미지 전송
-    res: {이미지가 서버에 저장된 주소값, 인식된이미지 좌표값, 라벨(이름, 카테고리, 서브카테고리), 예상 유통기한}
+    res: {이미지가 서버에 저장된 주소값, 인식된이미지 좌표값, 라벨(이름, 카테고리, 서브카테고리), 예상 유통기한}의 list
     """
     image = request.files['file']
     # userId = request.json['userId']
@@ -92,8 +92,8 @@ def addnewItem():
     cors = setup.Detection(temp)
     cropped_imgs = getCropImage(temp, cors)
     category_list = []
-    #temp.save("temp.jpg")
-    #img = open("temp.jpg", 'rb')
+    res = []
+
     for i in range(len(cropped_imgs)):
         cropped_imgs[i].save(str(i)+".jpg")
         subCategory = setup.Classification(cropped_imgs[i])
@@ -104,15 +104,15 @@ def addnewItem():
         now = datetime.now()
         # print(subCategory) #인식된 식재료 출력
         itemCategory = Category.query.filter_by(subCategory=subCategory.lower()).first()
-        # 인식된 식재료를 DB에 저장
+        # 인식된 식재료를 DB에 저장, 추후에 userID 넘겨받아야함.
         new_item = Item(userId = 'aaa', mfgDate = now, expDate = now + timedelta(days = itemCategory.expDate), category = itemCategory.category, subCategory = itemCategory.subCategory, countable = itemCategory.countable, consumptionRate = 1, imgKey = filename+str(i))
         db.session.add(new_item)
-
+        db.session.commit()
+        # res에 아이템 정보 추가
+        res.append({"itemId": new_item.itemId, "imgKey":filename+str(i), "startX": cors[0][i], "startY": cors[2][i], "endX":cors[1][i], "endY":cors[3][i], "category": itemCategory.category , "subCategory": itemCategory.subCategory })
     # add the new item to the database
     # db.session.add(new_category)
-    db.session.commit()
-
-    return jsonify(cors)
+    return jsonify(res)
 
 
 @item.route('/item/update', methods=['POST'])
