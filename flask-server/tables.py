@@ -14,14 +14,14 @@ class User(UserMixin, db.Model):
     __table_args__ = {'extend_existing': True}
 
 class Category(db.Model):
-    category = db.Column(db.String(100), primary_key=True)
-    subCategory = db.Column(db.String(100))
+    category = db.Column(db.String(100))
+    subCategory = db.Column(db.String(100), primary_key=True)
     expDate = db.Column(db.Integer)
     countable = db.Column(db.Boolean)
     imgKey = db.Column(db.String(200))
 
 class Item(db.Model):
-    itemId = db.Column(db.String(100), primary_key=True, autoincrement=True)
+    itemId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     userId = db.Column(db.String(100))
     mfgDate = db.Column(db.DateTime)
     expDate = db.Column(db.DateTime)
@@ -32,10 +32,13 @@ class Item(db.Model):
     totalVol = db.Column(db.Integer)
     consumptionRate = db.Column(db.Float)
     memo = db.Column(db.String(100))
-    img = image_attachment('ItemPicture')
-    __tablename__ = "item"
+    imgKey = db.Column(db.String(200))
 
+    # imgKey = image_attachment('ItemPicture')
+
+'''
 class ItemPicture(db.Model, Image):
     user_id = db.Column(db.String(100), db.ForeignKey('item.itemId'))
     itemImg = relationship('Item', overlaps="img")
     __tablename__ = 'itemPicture'
+'''
