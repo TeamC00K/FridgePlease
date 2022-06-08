@@ -110,17 +110,20 @@ def addnewItem():
         db.session.commit()
         # res에 아이템 정보 추가
         res.append({"itemId": new_item.itemId, "imgKey":filename+str(i), "startX": cors[0][i], "startY": cors[2][i], "endX":cors[1][i], "endY":cors[3][i], "category": itemCategory.category , "subCategory": itemCategory.subCategory })
-    # add the new item to the database
-    # db.session.add(new_category)
+
     return jsonify(res)
 
 
 @item.route('/item/update', methods=['POST'])
 def updateItem():
+
     pass
 
 @item.route('/item/delete', methods=['POST'])
 def deleteItem():
-    pass
+    itemId = request.json['itemId']
+    db.session.query(Item).filter(itemId==int(itemId)).delete()
+    db.session.commit()
+    return Response(status=200)
 
 
