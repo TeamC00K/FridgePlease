@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { Box } from '@mui/material';
+
 import Header from '../components/public/Header';
 import CategoryBar from '../components/category/CategoryBar';
 import SubCategoryBar from '../components/category/SubCategoryBar';
@@ -76,9 +78,11 @@ function CategoryPage() {
         setSubCategory={setSubCategory}
         curCategory={categoryName}
       />
-      {processedList.map(item => (
-        <Item key={item.key} item={item} />
-      ))}
+      <Box sx={{ pb: 8 }}>
+        {processedList.map(item => (
+          <Item key={item.key} item={item} />
+        ))}
+      </Box>
       <BottomNav />
     </>
   );
