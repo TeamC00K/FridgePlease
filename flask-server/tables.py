@@ -19,6 +19,7 @@ class Category(db.Model):
     expDate = db.Column(db.Integer)
     countable = db.Column(db.Boolean)
     imgKey = db.Column(db.String(200))
+    name = db.Column(db.String(100))
 
 class Item(db.Model):
     itemId = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -32,6 +33,7 @@ class Item(db.Model):
     totalVol = db.Column(db.Integer)
     consumptionRate = db.Column(db.Float)
     memo = db.Column(db.String(100))
+    name = db.Column(db.String(100))
     imgKey = db.Column(db.String(200))
 
     # imgKey = image_attachment('ItemPicture')
