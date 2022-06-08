@@ -64,7 +64,7 @@ def addItem():
     return Response(status=200)
 
 
-@item.route('/item/get')
+@item.route('/item/get', methods=['POST'])
 def getItem():
     """
     카테고리 페이지를 열어서 저장된 식료품 정보를 불러오는 함수
@@ -72,10 +72,13 @@ def getItem():
     req: userId, category
     res: 해당 카테고리에 해당되는 식료품 정보 : json list
     """
+    print("get")
     userId = request.json['userId']
-    category = request.json['category']
-    getItems = Category.query.filter_by(userId=userId, category = category)
-    return jsonify(getItems)
+    res = []
+    getItems = Item.query.filter_by(userId=userId)
+    for i in getItems:
+        res.append({"itemId":i.itemId, "userId":i.userId, "mfgDate":i.mfgDate, "expDate": i.expDate, "category": i.category, "subCategory":i.subCategory,"countable":i.countable, "frozen":i.frozen, "totalVol":i.totalVol, "consumptionRate":i.consumptionRate, "memo":i.memo, "imgKey":i.imgKey })
+    return jsonify(res)
 
 
 @item.route('/item/newimage', methods=['POST'])
