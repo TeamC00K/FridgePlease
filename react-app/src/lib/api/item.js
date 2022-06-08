@@ -5,7 +5,7 @@ POST /item/get
 req: id
 res: [item] 해당 id의 item 전체 list
 */
-export const getItems = async id => axios.post('/item/get', { id });
+export const getItems = async id => axios.post('/item/get', { userId:  id });
 
 /*
 POST /item/update
