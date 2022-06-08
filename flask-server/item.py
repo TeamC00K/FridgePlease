@@ -52,15 +52,16 @@ def addItem():
     userId = request.json['userId']
     category = request.json['category']
     subCategory = request.json['subCategory']
-    itemCategory = Category.query.filter_by(category=category).first()
+    totalVol = request.json['totalVol']
+    itemCategory = Category.query.filter_by(category=category, subCategory = subCategory).first()
     mfgDate = datetime.now()
 
-    new_item = Item(userId = userId, mfgDate=mfgDate, expDate = mfgDate + itemCategory.expDate, countable = itemCategory.countable, consumptionRate = 1)
+    new_item = Item(userId = userId, mfgDate=mfgDate, expDate = mfgDate + itemCategory.expDate, countable = itemCategory.countable, totalVol = totalVol, consumptionRate = 1, name = itemCategory.name)
 
     # add the new item to the database
     db.session.add(new_item)
     db.session.commit()
-    print("new_item input success")
+    print("구매 완료")
     return Response(status=200)
 
 
@@ -110,7 +111,7 @@ def addnewItem():
         print(subCategory)
         itemCategory = Category.query.filter_by(subCategory=subCategory.lower()).first()
         # 인식된 식재료를 DB에 저장, 추후에 userID 넘겨받아야함.
-        new_item = Item(userId = userId, mfgDate = now, expDate = now + timedelta(days = itemCategory.expDate), category = itemCategory.category, subCategory = itemCategory.subCategory, countable = itemCategory.countable, consumptionRate = 1, imgKey = filename+str(i))
+        new_item = Item(userId = userId, mfgDate = now, expDate = now + timedelta(days = itemCategory.expDate), category = itemCategory.category, subCategory = itemCategory.subCategory, countable = itemCategory.countable, consumptionRate = 1, name = itemCategory.name, imgKey = filename+str(i))
         db.session.add(new_item)
         db.session.commit()
         # res에 아이템 정보 추가
@@ -121,8 +122,7 @@ def addnewItem():
 
 @item.route('/item/update', methods=['POST'])
 def updateItem():
-
-    pass
+    return Response(status=200)
 
 @item.route('/item/delete', methods=['POST'])
 def deleteItem():
@@ -130,5 +130,3 @@ def deleteItem():
     db.session.query(Item).filter(itemId==int(itemId)).delete()
     db.session.commit()
     return Response(status=200)
-
-
