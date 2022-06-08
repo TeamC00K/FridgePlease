@@ -132,6 +132,6 @@ def updateItem():
 @item.route('/item/delete', methods=['POST'])
 def deleteItem():
     itemId = request.json['itemId']
-    db.session.query(Item).filter(itemId==int(itemId)).delete()
+    db.session.query(Item).filter(Item.itemId==int(itemId)).delete()
     db.session.commit()
     return Response(status=200)
