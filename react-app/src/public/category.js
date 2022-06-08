@@ -263,6 +263,11 @@ const categorys = {
   unknown: {
     name: 'unknown',
     img: '/categoryIcon/11.jpg',
+    subCategory: {
+      unknown1: {
+        name: '기타',
+      },
+    },
   },
 };
 

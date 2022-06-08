@@ -13,7 +13,7 @@ import Modal from '@mui/material/Modal';
 
 import DetailPage from '../../pages/DetailPage';
 import categorys from '../../public/category';
-import { updateItemConsumption } from '../../modules/items';
+import { updateItemConsumption, deleteItem } from '../../modules/items';
 
 function Item(props) {
   const dispatch = useDispatch();
@@ -41,8 +41,12 @@ function Item(props) {
   };
 
   const updateConsumptionRate = (event, newValue) => {
-    const newRate = newValue / 100;
-    dispatch(updateItemConsumption({ key: item.key, newRate }));
+    if (newValue === 0) {
+      dispatch(deleteItem({ key: item.key }));
+    } else {
+      const newRate = newValue / 100;
+      dispatch(updateItemConsumption({ key: item.key, newRate }));
+    }
   };
 
   return (

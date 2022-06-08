@@ -32,6 +32,7 @@ const DetailPage = React.forwardRef((props, ref) => {
   const [consumptionRate, setConsumptionRate] = useState(
     item.consumptionRate * 100,
   );
+
   const handleChange = (event, newValue) => {
     setConsumptionRate(newValue);
   };

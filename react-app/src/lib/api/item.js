@@ -2,7 +2,7 @@ import axios from 'axios';
 
 /*
 POST /item/get
-req: id
+req: userId: id
 res: [item] 해당 id의 item 전체 list
 */
 export const getItems = async id => axios.post('/item/get', { userId: id });
@@ -13,6 +13,14 @@ req: item 객체 (itemId값 포함)
 res: 성공여부만
 */
 export const updateItem = async item => axios.post('/item/update', { item });
+
+/*
+POST /item/delete
+req: itemId: key
+res: 성공여부
+*/
+export const deleteItem = async key =>
+  axios.post('/item/delete', { itemId: key });
 
 /*
 POST /item/newimage

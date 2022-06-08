@@ -4,6 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   getItems as getItemsApi,
   updateItem as updateItemApi,
+  deleteItem as deleteItemApi,
 } from '../lib/api/item';
 
 export const initItems = createAsyncThunk(
@@ -53,10 +54,14 @@ export const itemSlice = createSlice({
     updateItemConsumption(state, { payload }) {
       const { itemList } = state;
       const { key, newRate } = payload;
-      console.log(key);
       const index = itemList.findIndex(item => item.key === key);
       itemList[index].consumptionRate = newRate;
       updateItemApi(itemList[index]);
+    },
+    deleteItem(state, { payload }) {
+      const { key } = payload;
+      state.itemList = state.itemList.filter(item => item.key !== key);
+      deleteItemApi(key);
     },
   },
   extraReducers: {
@@ -100,6 +105,8 @@ export const itemSlice = createSlice({
   },
 });
 
-export const { updateItemConsumption } = itemSlice.actions;
+export const { updateItemConsumption, deleteItem } = itemSlice.actions;
 
 export const itemSelector = state => state.items;
+
+export const itemListSelector = state => state.items.itemList;

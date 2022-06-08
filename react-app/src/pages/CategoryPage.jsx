@@ -26,7 +26,7 @@ function CategoryPage() {
     const tmpList = itemList.filter(item => item.category === categoryName);
     setSelectedList(tmpList);
     setSubCategory('');
-  }, [categoryName]);
+  }, [categoryName, itemList]);
 
   useEffect(() => {
     let tmpList;
