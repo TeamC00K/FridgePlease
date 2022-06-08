@@ -66,6 +66,7 @@ export const itemSlice = createSlice({
       state.isSuccess = true;
       console.log(payload);
       for (const [, item] of Object.entries(payload)) {
+        if (!item.name) item.name = item.subcategory;
         const start = new Date(item.mfgDate);
         const end = new Date(item.expDate);
         const now = Date.now();
