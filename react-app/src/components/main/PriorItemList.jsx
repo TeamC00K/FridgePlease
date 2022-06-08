@@ -19,7 +19,7 @@ function PriorItemList(props) {
     tmpList = itemList.filter(item => item.consumptionRate < 0.3);
     tmpList.sort((a, b) => a.consumptionRate - b.consumptionRate);
     setScarceItems(tmpList);
-    console.log(expiredItems, scarceItems);
+    // console.log(expiredItems, scarceItems);
   }, [itemList]);
 
   // key value 수정 필요

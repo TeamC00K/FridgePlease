@@ -22,7 +22,7 @@ function Header(props) {
       ) : (
         <IconButton
           onClick={() => {
-            navigate(-1);
+            navigate('/');
           }}
         >
           <ArrowBackIosNewIcon />

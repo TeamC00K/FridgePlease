@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -27,6 +27,10 @@ function Item(props) {
     item.consumptionRate * 100,
   );
 
+  useEffect(() => {
+    setConsumptionRate(item.consumptionRate * 100);
+  }, []);
+
   let bgColor;
   if (item.elapsedRate < 0.1) {
     bgColor = 'expire10';
@@ -52,7 +56,7 @@ function Item(props) {
   return (
     <>
       <Modal open={open} onClose={handleClose}>
-        <DetailPage item={item} />
+        <DetailPage item={item} changeState={setConsumptionRate} />
       </Modal>
       <CardActionArea onClick={handleOpen} sx={{ mb: 1 }}>
         <Card

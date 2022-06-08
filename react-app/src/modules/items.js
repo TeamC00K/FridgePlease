@@ -52,11 +52,10 @@ export const itemSlice = createSlice({
   },
   reducers: {
     updateItemConsumption(state, { payload }) {
-      const { itemList } = state;
       const { key, newRate } = payload;
-      const index = itemList.findIndex(item => item.key === key);
-      itemList[index].consumptionRate = newRate;
-      updateItemApi(itemList[index]);
+      const index = state.itemList.findIndex(item => item.key === key);
+      state.itemList[index].consumptionRate = newRate;
+      updateItemApi(state.itemList[index]);
     },
     deleteItem(state, { payload }) {
       const { key } = payload;

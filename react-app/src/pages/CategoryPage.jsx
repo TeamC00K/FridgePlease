@@ -26,7 +26,12 @@ function CategoryPage() {
     const tmpList = itemList.filter(item => item.category === categoryName);
     setSelectedList(tmpList);
     setSubCategory('');
-  }, [categoryName, itemList]);
+  }, [categoryName]);
+
+  useEffect(() => {
+    const tmpList = itemList.filter(item => item.category === categoryName);
+    setSelectedList(tmpList);
+  }, [itemList]);
 
   useEffect(() => {
     let tmpList;
@@ -59,13 +64,15 @@ function CategoryPage() {
       return 0;
     });
     setProcessedList(tmpList);
-    console.log(tmpList);
+    // console.log(tmpList);
   }, [selectedList, sortBy, subCategory]);
 
   // 이슈
+  /*
   useEffect(() => {
     console.log(processedList);
   }, [processedList]);
+  */
 
   return (
     <>

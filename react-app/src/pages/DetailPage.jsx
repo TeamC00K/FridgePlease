@@ -10,7 +10,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Slider from '@mui/material/Slider';
 
 import categorys from '../public/category';
-import { updateItemConsumption } from '../modules/items';
+import { updateItemConsumption, deleteItem } from '../modules/items';
 
 const style = {
   position: 'absolute',
@@ -27,7 +27,7 @@ const style = {
 
 const DetailPage = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
-  const { item } = props;
+  const { item, changeState } = props;
 
   const [consumptionRate, setConsumptionRate] = useState(
     item.consumptionRate * 100,
@@ -35,11 +35,16 @@ const DetailPage = React.forwardRef((props, ref) => {
 
   const handleChange = (event, newValue) => {
     setConsumptionRate(newValue);
+    if (changeState) changeState(newValue);
   };
 
   const updateConsumptionRate = (event, newValue) => {
-    const newRate = newValue / 100;
-    dispatch(updateItemConsumption({ key: item.key, newRate }));
+    if (newValue === 0) {
+      dispatch(deleteItem({ key: item.key }));
+    } else {
+      const newRate = newValue / 100;
+      dispatch(updateItemConsumption({ key: item.key, newRate }));
+    }
   };
 
   return (
@@ -105,6 +110,7 @@ DetailPage.propTypes = {
     elapsedRate: PropTypes.number.isRequired,
     consumptionRate: PropTypes.number.isRequired,
   }).isRequired,
+  changeState: PropTypes.func,
 };
 
 export default DetailPage;
