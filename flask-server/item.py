@@ -78,7 +78,7 @@ def getItem():
     res = []
     getItems = Item.query.filter_by(userId=userId)
     for i in getItems:
-        res.append({"itemId":i.itemId, "userId":i.userId, "mfgDate":i.mfgDate, "expDate": i.expDate, "category": i.category, "subCategory":i.subCategory,"countable":i.countable, "frozen":i.frozen, "totalVol":i.totalVol, "consumptionRate":i.consumptionRate, "memo":i.memo, "imgKey":i.imgKey })
+        res.append({"itemId":i.itemId, "name":i.name, "userId":i.userId, "mfgDate":i.mfgDate, "expDate": i.expDate, "category": i.category, "subCategory":i.subCategory,"countable":i.countable, "frozen":i.frozen, "totalVol":i.totalVol, "consumptionRate":i.consumptionRate, "memo":i.memo, "imgKey":i.imgKey })
     return jsonify(res)
 
 
@@ -122,6 +122,11 @@ def addnewItem():
 
 @item.route('/item/update', methods=['POST'])
 def updateItem():
+    item = request.json['item']
+    itemId = item['itemId']
+    consumptionRate = item['consumptionRate']
+    db.session.query(Item).filter(Item.itemId==itemId).update({'consumptionRate': consumptionRate})
+    db.session.commit()
     return Response(status=200)
 
 @item.route('/item/delete', methods=['POST'])
