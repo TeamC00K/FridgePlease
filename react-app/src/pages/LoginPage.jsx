@@ -91,7 +91,7 @@ function LoginPage() {
                     required
                     fullWidth
                     id="passwd"
-                    label="회원가입"
+                    label="비밀번호"
                   />
                 )}
               />

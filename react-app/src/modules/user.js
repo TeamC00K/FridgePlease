@@ -56,8 +56,8 @@ export const userSlice = createSlice({
     [registerUser.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;
-      state.name = payload.user.name;
-      state.id = payload.user.id;
+      state.name = payload.name;
+      state.id = payload.id;
     },
     [registerUser.pending]: state => {
       state.isFetching = true;
@@ -70,8 +70,8 @@ export const userSlice = createSlice({
     [loginUser.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;
-      state.name = payload.user.name;
-      state.id = payload.user.id;
+      state.name = payload.name;
+      state.id = payload.id;
     },
     [loginUser.pending]: state => {
       state.isFetching = true;
