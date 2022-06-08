@@ -47,4 +47,8 @@ def Classification(image):
     res = resize(img,(224,224,3))
     res = np.expand_dims(res, axis = 0)
     out = classification_model.predict(res)
+    temp = out*100/np.sum(out)
+    # print("-----------test score--------- : ",temp)
+    if np.max(temp) < 99:
+        return "unknown"
     return Category[np.argmax(out)]
