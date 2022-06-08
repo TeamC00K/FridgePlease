@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 
 import { sendImage as sendImageApi } from '../../lib/api/item';
+import { userSelector } from '../../modules/user';
 
 const style = {
   position: 'absolute',
@@ -23,6 +24,7 @@ const style = {
 
 const ItemRegister = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
+  const { id } = useSelector(userSelector);
   const imgInput = useRef(null);
 
   const [image, setImage] = useState();
@@ -40,6 +42,7 @@ const ItemRegister = React.forwardRef((props, ref) => {
   const sendImage = async () => {
     const formData = new FormData();
     formData.append('file', image);
+    formData.append('id', id);
     const response = await sendImageApi(formData);
   };
 

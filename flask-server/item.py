@@ -86,7 +86,8 @@ def addnewItem():
     res: {이미지가 서버에 저장된 주소값, 인식된이미지 좌표값, 라벨(이름, 카테고리, 서브카테고리), 예상 유통기한}의 list
     """
     image = request.files['file']
-    # userId = request.json['userId']
+    userId = request.form['id']
+    #print(userId)
     filename = image.filename.split(".")[0]
     temp = Image.open(image)
     cors = setup.Detection(temp)
@@ -103,9 +104,10 @@ def addnewItem():
         S3.Bucket(BUCKET_NAME).put_object(Key=filename+str(i), Body=img, ContentType='image/jpg')
         now = datetime.now()
         # print(subCategory) #인식된 식재료 출력
+        print(subCategory)
         itemCategory = Category.query.filter_by(subCategory=subCategory.lower()).first()
         # 인식된 식재료를 DB에 저장, 추후에 userID 넘겨받아야함.
-        new_item = Item(userId = 'aaa', mfgDate = now, expDate = now + timedelta(days = itemCategory.expDate), category = itemCategory.category, subCategory = itemCategory.subCategory, countable = itemCategory.countable, consumptionRate = 1, imgKey = filename+str(i))
+        new_item = Item(userId = userId, mfgDate = now, expDate = now + timedelta(days = itemCategory.expDate), category = itemCategory.category, subCategory = itemCategory.subCategory, countable = itemCategory.countable, consumptionRate = 1, imgKey = filename+str(i))
         db.session.add(new_item)
         db.session.commit()
         # res에 아이템 정보 추가
