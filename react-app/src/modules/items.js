@@ -67,6 +67,10 @@ export const itemSlice = createSlice({
       console.log(payload);
       for (const [, item] of Object.entries(payload)) {
         if (!item.name) item.name = item.subcategory;
+        item.key = item.itemId;
+        item.img = item.imgSrc;
+        if(!item.memo) item.memo ='';
+        if(!item.totalVol) item.totalVol = 1;
         const start = new Date(item.mfgDate);
         const end = new Date(item.expDate);
         const now = Date.now();

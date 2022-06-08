@@ -260,6 +260,10 @@ const categorys = {
       },
     },
   },
+  unknown: {
+    name: 'unknown',
+    img: '/categoryIcon/11.jpg'
+  }
 };
 
 export default categorys;
