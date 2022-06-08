@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { Box } from '@mui/material';
+
 import Header from '../components/public/Header';
 import PriorItemList from '../components/main/PriorItemList';
 import SearchBar from '../components/main/SearchBar';
@@ -24,11 +26,13 @@ function MainPage() {
 
   return (
     <>
-      <Header title=" " type="main" />
-      {isSuccess && <PriorItemList itemList={itemList} />}
-      <SearchBar />
-      <Menu />
-      <Category />
+      <Box sx={{ pb: 6 }}>
+        <Header title=" " type="main" />
+        {isSuccess && <PriorItemList itemList={itemList} />}
+        <SearchBar />
+        <Menu />
+        <Category />
+      </Box>
       <BottomNav />
     </>
   );

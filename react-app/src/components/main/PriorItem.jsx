@@ -38,7 +38,15 @@ function PriorItem(props) {
       <Modal open={open} onClose={handleClose}>
         <DetailPage item={item} />
       </Modal>
-      <Box sx={{ width: '30vw', height: '40vw', m: 2 }} onClick={handleOpen}>
+      <Box
+        sx={{
+          width: '28vw',
+          m: 2,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+        onClick={handleOpen}
+      >
         <Badge
           badgeContent={
             type === 'expired'
@@ -55,14 +63,13 @@ function PriorItem(props) {
           }}
         >
           <Avatar
-            sx={{ width: '30vw', height: '30vw', bgcolor: grey[300] }}
+            sx={{ width: '28vw', height: '28vw', bgcolor: grey[300] }}
             src={process.env.PUBLIC_URL + categorys[item.category].img}
           />
         </Badge>
         <Box
           sx={{
             width: '30vw',
-            height: '10vw',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

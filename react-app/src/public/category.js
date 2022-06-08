@@ -24,7 +24,7 @@ const categorys = {
     },
   },
   fruit: {
-    name: '과일 견과 쌀',
+    name: '과일',
     img: '/categoryIcon/1.jpg',
     subCategory: {
       fruit1: {
@@ -45,7 +45,7 @@ const categorys = {
     },
   },
   seafood: {
-    name: '수산 해산 건어물',
+    name: '해산물',
     img: '/categoryIcon/2.jpg',
     subCategory: {
       seafood1: {
@@ -69,7 +69,7 @@ const categorys = {
     },
   },
   meat: {
-    name: '정육 계란',
+    name: '정육',
     img: '/categoryIcon/3.jpg',
     subCategory: {
       meat1: {
@@ -93,7 +93,7 @@ const categorys = {
     },
   },
   soup: {
-    name: '국 반찬 메인요리',
+    name: '반찬',
     img: '/categoryIcon/4.jpg',
     subCategory: {
       soup1: {
@@ -117,7 +117,7 @@ const categorys = {
     },
   },
   salad: {
-    name: '샐러드 간편식',
+    name: '간편식',
     img: '/categoryIcon/5.jpg',
     subCategory: {
       salad1: {
@@ -141,7 +141,7 @@ const categorys = {
     },
   },
   noodle: {
-    name: '면 양념 오일',
+    name: '양념',
     img: '/categoryIcon/6.jpg',
     subCategory: {
       noodle1: {
@@ -165,7 +165,7 @@ const categorys = {
     },
   },
   dairy: {
-    name: '생수 음료 우유 커피',
+    name: '음료',
     img: '/categoryIcon/7.jpg',
     subCategory: {
       dairy1: {
@@ -186,7 +186,7 @@ const categorys = {
     },
   },
   cookie: {
-    name: '간식 과자 떡',
+    name: '간식',
     img: '/categoryIcon/8.jpg',
     subCategory: {
       cookie1: {
@@ -204,7 +204,7 @@ const categorys = {
     },
   },
   bakery: {
-    name: '베이커리 치즈 델리',
+    name: '빵 치즈',
     img: '/categoryIcon/9.jpg',
     subCategory: {
       bakery1: {
@@ -262,8 +262,8 @@ const categorys = {
   },
   unknown: {
     name: 'unknown',
-    img: '/categoryIcon/11.jpg'
-  }
+    img: '/categoryIcon/11.jpg',
+  },
 };
 
 export default categorys;
