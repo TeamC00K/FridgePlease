@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -11,6 +12,7 @@ import { sendImage, itemSelector } from '../../modules/items';
 import { userSelector } from '../../modules/user';
 
 import CroppedItem from './CroppedItem';
+import ConfirmItems from './ConfirmItems';
 
 const style = {
   position: 'absolute',
@@ -38,6 +40,8 @@ const style1 = {
 };
 
 const ItemRegister = React.forwardRef((props, ref) => {
+  const { onClose } = props;
+
   const dispatch = useDispatch();
   const { id } = useSelector(userSelector);
   const { isFetching } = useSelector(itemSelector);
@@ -47,6 +51,29 @@ const ItemRegister = React.forwardRef((props, ref) => {
   const [imageSize, setImageSize] = useState();
   const [sendData, setSendData] = useState();
   const [returnSet, setReturnSet] = useState();
+
+  useEffect(() => {
+    console.log(returnSet);
+  }, [returnSet]);
+
+  const editReturnSet = (key, newname) => {
+    const tmpSet = returnSet;
+    Object.defineProperty(tmpSet[key], 'isChanged', {
+      value: true,
+      writable: true,
+    });
+    tmpSet[key].subCategory = newname;
+    setReturnSet({ ...tmpSet });
+  };
+
+  const delItem = (key, val) => {
+    const tmpSet = returnSet;
+    Object.defineProperty(tmpSet[key], 'isDeleted', {
+      value: val,
+      writable: true,
+    });
+    setReturnSet({ ...tmpSet });
+  };
 
   const onImgUpload = event => {
     const img = new Image();
@@ -126,18 +153,27 @@ const ItemRegister = React.forwardRef((props, ref) => {
 
   return (
     <Box sx={style1} ref={ref} tabIndex={-1}>
-      {Object.entries(returnSet).map(([index, item]) => (
-        <CroppedItem
-          key={index}
-          cropData={item}
-          image={image}
-          imageSize={imageSize}
-        />
-      ))}
+      {Object.entries(returnSet).map(([index, item]) => {
+        console.log(index);
+        return (
+          <CroppedItem
+            key={index}
+            index={index}
+            cropData={item}
+            image={image}
+            imageSize={imageSize}
+            edit={editReturnSet}
+            delFunc={delItem}
+          />
+        );
+      })}
+      <ConfirmItems items={returnSet} onClose={onClose} />
     </Box>
   );
 });
 
-ItemRegister.propTypes = {};
+ItemRegister.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
 
 export default ItemRegister;

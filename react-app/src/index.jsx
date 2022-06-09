@@ -6,6 +6,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 import store from './modules';
 
 import './index.css';
@@ -14,13 +16,17 @@ import theme from './public/theme';
 
 const rootNode = document.getElementById('root');
 
+const persistor = persistStore(store);
+
 ReactDOM.createRoot(rootNode).render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
-    </BrowserRouter>
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <App />
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
+  </BrowserRouter>,
 );

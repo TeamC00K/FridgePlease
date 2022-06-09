@@ -26,9 +26,9 @@ const style2 = {
 };
 
 function CroppedItem(props) {
-  const { cropData, image, imageSize } = props;
+  const { index, cropData, image, imageSize, edit, delFunc } = props;
 
-  ratio = (imageSize[1] * 3) / (imageSize[0] * 4);
+  ratio = (imageSize[1] * 9) / (imageSize[0] * 16);
 
   const [del, setDel] = useState(false);
 
@@ -37,6 +37,10 @@ function CroppedItem(props) {
     cropData.startY / imageSize[1],
   ];
   const endPos = [cropData.endX / imageSize[0], cropData.endY / imageSize[1]];
+
+  const handleChange = event => {
+    edit(index, event.target.value);
+  };
 
   return (
     <Box
@@ -57,6 +61,7 @@ function CroppedItem(props) {
         <Button
           onClick={() => {
             setDel(false);
+            delFunc(index, false);
           }}
           sx={{
             position: 'absolute',
@@ -77,7 +82,7 @@ function CroppedItem(props) {
       <Box
         sx={{
           width: '100%',
-          aspectRatio: '3/4',
+          aspectRatio: '9/16',
           bgcolor: '#D0D0D0',
           mb: 2,
           display: 'flex',
@@ -85,7 +90,7 @@ function CroppedItem(props) {
           alignItems: 'center',
         }}
       >
-        <Box sx={imageSize[0] > imageSize[1] ? style1 : style2}>
+        <Box sx={imageSize[0] * 16 > imageSize[1] * 9 ? style1 : style2}>
           <img src={image.src} alt="register" width="100%" height="100%" />
           <Box
             sx={{
@@ -106,14 +111,17 @@ function CroppedItem(props) {
             id="standard-basic"
             variant="standard"
             defaultValue={cropData.subCategory}
+            onChange={handleChange}
             inputProps={{ style: { fontSize: 30 } }}
           />
           <IconButton
             onClick={() => {
               setDel(true);
+              delFunc(index, true);
             }}
             aria-label="delete"
             size="large"
+            sx={{ paddingRight: 0 }}
           >
             <DeleteIcon sx={{ fontSize: 30 }} />
           </IconButton>
@@ -124,6 +132,7 @@ function CroppedItem(props) {
 }
 
 CroppedItem.propTypes = {
+  index: PropTypes.number.isRequired,
   cropData: PropTypes.shape({
     subCategory: PropTypes.string.isRequired,
     startX: PropTypes.number.isRequired,
@@ -133,6 +142,8 @@ CroppedItem.propTypes = {
   }).isRequired,
   image: PropTypes.instanceOf(Image).isRequired,
   imageSize: PropTypes.array.isRequired,
+  edit: PropTypes.func.isRequired,
+  delFunc: PropTypes.func.isRequired,
 };
 
 export default CroppedItem;

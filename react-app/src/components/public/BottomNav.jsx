@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeIcon from '@mui/icons-material/Home';
-import RestoreIcon from '@mui/icons-material/Restore';
+import TocIcon from '@mui/icons-material/Toc';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
@@ -23,8 +23,8 @@ function BottomNav() {
           setValue(newValue);
         }}
       >
-        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+        <BottomNavigationAction onClicklabel="Home" icon={<HomeIcon />} />
+        <BottomNavigationAction label="Category" icon={<TocIcon />} />
         <BottomNavigationAction label="Search" icon={<SearchIcon />} />
         <BottomNavigationAction label="Shop" icon={<ShoppingCartIcon />} />
         <BottomNavigationAction label="Person" icon={<PersonIcon />} />

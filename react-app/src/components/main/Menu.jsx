@@ -15,7 +15,7 @@ function Menu() {
   return (
     <>
       <Modal open={open} onClose={handleClose}>
-        <ItemRegister />
+        <ItemRegister onClose={handleClose} />
       </Modal>
       <Grid
         container
