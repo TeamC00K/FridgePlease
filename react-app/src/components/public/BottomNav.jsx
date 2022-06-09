@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import Paper from '@mui/material/Paper';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -9,8 +11,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
 
-function BottomNav() {
-  const [value, setValue] = React.useState(0);
+function BottomNav(props) {
+  const { value } = props;
+  const navigate = useNavigate();
 
   return (
     <Paper
@@ -20,10 +23,23 @@ function BottomNav() {
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
-          setValue(newValue);
+          switch (newValue) {
+            case 0:
+              navigate('/');
+              break;
+            case 1:
+              navigate('/category/vegetable');
+              break;
+            case 2:
+              navigate('/items');
+              break;
+            default:
+              navigate('/');
+              break;
+          }
         }}
       >
-        <BottomNavigationAction onClicklabel="Home" icon={<HomeIcon />} />
+        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
         <BottomNavigationAction label="Category" icon={<TocIcon />} />
         <BottomNavigationAction label="Search" icon={<SearchIcon />} />
         <BottomNavigationAction label="Shop" icon={<ShoppingCartIcon />} />
@@ -32,5 +48,9 @@ function BottomNav() {
     </Paper>
   );
 }
+
+BottomNav.propTypes = {
+  value: PropTypes.number.isRequired,
+};
 
 export default BottomNav;

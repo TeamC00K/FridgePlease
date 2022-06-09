@@ -1,7 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-
-import { Box } from '@mui/material';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Header from '../components/public/Header';
 import PriorItemList from '../components/main/PriorItemList';
@@ -10,21 +8,28 @@ import Menu from '../components/main/Menu';
 import Category from '../components/main/Category';
 import BottomNav from '../components/public/BottomNav';
 
-import { itemSelector } from '../modules/items';
+import { userSelector } from '../modules/user';
+import { initItems, itemSelector } from '../modules/items';
 
 function MainPage() {
+  const dispatch = useDispatch();
+  const { id } = useSelector(userSelector);
   const { itemList, isSuccess } = useSelector(itemSelector);
+
+  useEffect(() => {
+    if (!isSuccess) {
+      dispatch(initItems(id));
+    }
+  }, []);
 
   return (
     <>
-      <Box sx={{ pb: 6 }}>
-        <Header title=" " type="main" />
-        {isSuccess && <PriorItemList itemList={itemList} />}
-        <SearchBar />
-        <Menu />
-        <Category />
-      </Box>
-      <BottomNav />
+      <Header title=" " type="main" />
+      {isSuccess && <PriorItemList itemList={itemList} />}
+      <SearchBar />
+      <Menu />
+      <Category />
+      <BottomNav value={0} />
     </>
   );
 }
