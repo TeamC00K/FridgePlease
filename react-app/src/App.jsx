@@ -9,6 +9,7 @@ import MainPage from './pages/MainPage';
 import CategoryPage from './pages/CategoryPage';
 import EntireItemPage from './pages/EntireItemPage';
 import PushItemPage from './pages/PushItemPage';
+import PushAlertPage from './pages/PushAlertPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/category/:categoryName" element={<CategoryPage />} />
         <Route path="/items" element={<EntireItemPage />} />
         <Route path="/items/:itemId" element={<PushItemPage />} />
+        <Route path="/push" element={<PushAlertPage />} />
       </Route>
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
