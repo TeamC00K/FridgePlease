@@ -5,6 +5,7 @@ import {
   getItems as getItemsApi,
   updateItem as updateItemApi,
   deleteItem as deleteItemApi,
+  sendImage as sendImageApi,
 } from '../lib/api/item';
 
 export const initItems = createAsyncThunk(
@@ -12,6 +13,23 @@ export const initItems = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await getItemsApi(id);
+      const { data } = response;
+      if (response.status === 200) {
+        return { ...data };
+      }
+      return thunkAPI.rejectWithValue(data);
+    } catch (e) {
+      console.log('Error', e.response.data);
+      return thunkAPI.rejectWithValue(e.response.data);
+    }
+  },
+);
+
+export const sendImage = createAsyncThunk(
+  'items/sendImage',
+  async (form, thunkAPI) => {
+    try {
+      const response = await sendImageApi(form);
       const { data } = response;
       if (response.status === 200) {
         return { ...data };
@@ -48,6 +66,7 @@ export const itemSlice = createSlice({
     isFetching: false,
     isSuccess: false,
     isError: false,
+    isSend: false,
     errorMessage: '',
   },
   reducers: {
@@ -97,6 +116,18 @@ export const itemSlice = createSlice({
       state.isFetching = true;
     },
     [initItems.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload.message;
+    },
+    [sendImage.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSend = true;
+    },
+    [sendImage.pending]: state => {
+      state.isFetching = true;
+    },
+    [sendImage.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload.message;

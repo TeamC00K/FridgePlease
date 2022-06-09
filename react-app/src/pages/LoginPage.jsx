@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 import { loginUser, userSelector } from '../modules/user';
+import { initItems } from '../modules/items';
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -25,22 +26,25 @@ function LoginPage() {
     },
   });
 
-  const { isSuccess, isError, errorMessage } = useSelector(userSelector);
+  const { isSuccess, isError, errorMessage, id } = useSelector(userSelector);
   const onSubmit = data => {
     dispatch(loginUser(data));
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      navigate('/');
-    }
-    if (isError) {
-      if (errorMessage) console.error(errorMessage);
-      reset({
-        id: '',
-        passwd: '',
-      });
-    }
+    (async () => {
+      if (isSuccess) {
+        await dispatch(initItems(id));
+        navigate('/');
+      }
+      if (isError) {
+        if (errorMessage) console.error(errorMessage);
+        reset({
+          id: '',
+          passwd: '',
+        });
+      }
+    })();
   }, [isSuccess, isError]);
 
   return (

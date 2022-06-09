@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { Box } from '@mui/material';
 
@@ -10,19 +10,10 @@ import Menu from '../components/main/Menu';
 import Category from '../components/main/Category';
 import BottomNav from '../components/public/BottomNav';
 
-import { userSelector } from '../modules/user';
-import { initItems, itemSelector } from '../modules/items';
+import { itemSelector } from '../modules/items';
 
 function MainPage() {
-  const dispatch = useDispatch();
-  const { id } = useSelector(userSelector);
   const { itemList, isSuccess } = useSelector(itemSelector);
-
-  useEffect(() => {
-    if (!isSuccess) {
-      dispatch(initItems(id));
-    }
-  }, []);
 
   return (
     <>

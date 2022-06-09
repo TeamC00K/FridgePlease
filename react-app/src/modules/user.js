@@ -8,7 +8,6 @@ export const registerUser = createAsyncThunk(
     try {
       const response = await register({ name, id, passwd });
       const { data } = response;
-      console.log('data', data);
       if (response.status === 200) {
         // localStorage.setItem('token', data.token);
         return { ...data };
@@ -46,6 +45,7 @@ export const userSlice = createSlice({
     id: '',
     isFetching: false,
     isSuccess: false,
+    isRegister: false,
     isError: false,
     errorMessage: '',
   },
@@ -53,11 +53,9 @@ export const userSlice = createSlice({
     // Reducer comes here
   },
   extraReducers: {
-    [registerUser.fulfilled]: (state, { payload }) => {
+    [registerUser.fulfilled]: state => {
       state.isFetching = false;
-      state.isSuccess = true;
-      state.name = payload.name;
-      state.id = payload.id;
+      state.isRegister = true;
     },
     [registerUser.pending]: state => {
       state.isFetching = true;

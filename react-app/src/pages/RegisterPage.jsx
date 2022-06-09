@@ -26,15 +26,15 @@ function RegisterPage() {
     },
   });
 
-  const { isSuccess, isError, errorMessage } = useSelector(userSelector);
+  const { isRegister, isError, errorMessage } = useSelector(userSelector);
 
   const onSubmit = data => {
     dispatch(registerUser(data));
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      navigate('/');
+    if (isRegister) {
+      navigate('/login');
     }
     if (isError) {
       if (errorMessage) console.error(errorMessage);
@@ -44,7 +44,7 @@ function RegisterPage() {
         passwd: '',
       });
     }
-  }, [isSuccess, isError]);
+  }, [isRegister, isError]);
 
   return (
     <Container component="main" maxWidth="xs">
