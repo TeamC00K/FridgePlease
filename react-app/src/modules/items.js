@@ -87,7 +87,7 @@ export const itemSlice = createSlice({
       const tmpList = [];
       state.isFetching = false;
       state.isSuccess = true;
-      console.log(payload);
+      // console.log(payload);
       for (const [, item] of Object.entries(payload)) {
         if (!item.name) item.name = item.subCategory;
         item.key = item.itemId;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
@@ -27,15 +27,18 @@ const style = {
 
 const DetailPage = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
-  const { item, changeState } = props;
+  const { item } = props;
 
   const [consumptionRate, setConsumptionRate] = useState(
     item.consumptionRate * 100,
   );
 
+  useEffect(() => {
+    setConsumptionRate(item.consumptionRate * 100);
+  }, [item]);
+
   const handleChange = (event, newValue) => {
     setConsumptionRate(newValue);
-    if (changeState) changeState(newValue);
   };
 
   const updateConsumptionRate = (event, newValue) => {
@@ -110,7 +113,6 @@ DetailPage.propTypes = {
     elapsedRate: PropTypes.number.isRequired,
     consumptionRate: PropTypes.number.isRequired,
   }).isRequired,
-  changeState: PropTypes.func,
 };
 
 export default DetailPage;

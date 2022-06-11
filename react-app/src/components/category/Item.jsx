@@ -28,8 +28,9 @@ function Item(props) {
   );
 
   useEffect(() => {
+    console.log('child rerender');
     setConsumptionRate(item.consumptionRate * 100);
-  }, []);
+  }, [item]);
 
   let bgColor;
   if (item.elapsedRate < 0.1) {
@@ -56,7 +57,7 @@ function Item(props) {
   return (
     <>
       <Modal open={open} onClose={handleClose}>
-        <DetailPage item={item} changeState={setConsumptionRate} />
+        <DetailPage item={item} />
       </Modal>
       <CardActionArea onClick={handleOpen} sx={{ mb: 1 }}>
         <Card
