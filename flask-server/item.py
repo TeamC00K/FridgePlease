@@ -128,6 +128,16 @@ def updateItem():
     db.session.commit()
     return Response(status=200)
 
+
+@item.route('/item/change/name', methods=['POST'])
+def changeItemName():
+    itemId = request.json['itemId']
+    newName = request.json['newName']
+    db.session.query(Item).filter(Item.itemId==itemId).update({'name': newName})
+    db.session.commit()
+    return Response(status=200)
+
+
 @item.route('/item/delete', methods=['POST'])
 def deleteItem():
     itemId = request.json['itemId']
