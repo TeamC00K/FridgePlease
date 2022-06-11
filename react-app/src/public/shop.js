@@ -1,6 +1,6 @@
 const shopList = {
   apple: {
-    name: '사과1',
+    name: '사과',
     category: 'fruit',
     subCategory: 'fruit1',
     imgSrc: '/shop/apple.jpg',
