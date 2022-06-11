@@ -52,11 +52,11 @@ def addItem():
     userId = request.json['userId']
     category = request.json['category']
     subCategory = request.json['subCategory']
-    totalVol = request.json['totalVol']
+    name = request.json['name']
     itemCategory = Category.query.filter_by(category=category, subCategory = subCategory).first()
     mfgDate = datetime.now()
 
-    new_item = Item(userId = userId, mfgDate=mfgDate, expDate = mfgDate + itemCategory.expDate, countable = itemCategory.countable, totalVol = totalVol, consumptionRate = 1, name = itemCategory.name)
+    new_item = Item(userId = userId, mfgDate=mfgDate, expDate = mfgDate + itemCategory.expDate, countable = itemCategory.countable, consumptionRate = 1, name = itemCategory.name)
 
     # add the new item to the database
     db.session.add(new_item)
