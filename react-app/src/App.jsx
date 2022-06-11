@@ -9,6 +9,7 @@ import MainPage from './pages/MainPage';
 import CategoryPage from './pages/CategoryPage';
 import EntireItemPage from './pages/EntireItemPage';
 import PushAlertPage from './pages/PushAlertPage';
+import ShopPage from './pages/ShopPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/category/:categoryName" element={<CategoryPage />} />
         <Route path="/items" element={<EntireItemPage />} />
         <Route path="/push" element={<PushAlertPage />} />
+        <Route path="/shop" element={<ShopPage />} />
       </Route>
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />

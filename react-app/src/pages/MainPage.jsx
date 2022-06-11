@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
 import Header from '../components/public/Header';
 import PriorItemList from '../components/main/PriorItemList';
 import SearchBar from '../components/main/SearchBar';
@@ -33,17 +34,19 @@ function MainPage() {
   }, []);
 
   return (
-    <>
-      <Modal open={open} onClose={handleClose}>
-        <DetailPage item={itemList[itemId]} />
-      </Modal>
+    <Box sx={{ pb: 7 }}>
+      {itemId && (
+        <Modal open={open} onClose={handleClose}>
+          <DetailPage item={itemList[itemId]} />
+        </Modal>
+      )}
       <Header title=" " type="main" />
       {isSuccess && <PriorItemList itemList={itemList} />}
       <SearchBar />
       <Menu />
       <Category />
       <BottomNav value={0} />
-    </>
+    </Box>
   );
 }
 

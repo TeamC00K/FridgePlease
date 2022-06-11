@@ -33,6 +33,9 @@ function BottomNav(props) {
             case 2:
               navigate('/items');
               break;
+            case 3:
+              navigate('/shop');
+              break;
             default:
               navigate('/');
               break;

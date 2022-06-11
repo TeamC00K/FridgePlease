@@ -41,3 +41,10 @@ res: 성공여부만
 */
 export const changeItemName = async item =>
   axios.post('/item/change/name', item);
+
+/*
+POST /item/add
+req: userId, category, subCategory, name
+res: 성공여부
+*/
+export const buyItem = async buy => axios.post('/item/add', buy);

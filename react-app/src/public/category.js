@@ -242,6 +242,7 @@ const categorys = {
       },
     },
   },
+  /*
   alcohol: {
     name: '주류',
     img: '/categoryIcon/11.jpg',
@@ -260,9 +261,10 @@ const categorys = {
       },
     },
   },
+  */
   unknown: {
-    name: 'unknown',
-    img: '/categoryIcon/11.jpg',
+    name: '기타',
+    img: '/categoryIcon/13.jpg',
     subCategory: {
       unknown1: {
         name: '기타',
