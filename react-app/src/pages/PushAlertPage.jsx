@@ -22,7 +22,12 @@ function PushAlertPage() {
       return 0;
     });
     setExpiredItems(tmpString);
-    setAddr(tmpList[0].itemId);
+    console.log(tmpList[0].itemId);
+    const tmpIndex = itemList.findIndex(
+      val => val.itemId === tmpList[0].itemId,
+    );
+    console.log(tmpIndex);
+    setAddr(tmpIndex);
   }, []);
 
   return (
@@ -34,7 +39,7 @@ function PushAlertPage() {
         backgroundSize: 'contain',
       }}
     >
-      <Link to={`/items/${addr}`}>
+      <Link to={`/${addr}`}>
         <Box
           sx={{
             width: '90vw',

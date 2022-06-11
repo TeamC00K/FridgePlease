@@ -8,7 +8,6 @@ import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import CategoryPage from './pages/CategoryPage';
 import EntireItemPage from './pages/EntireItemPage';
-import PushItemPage from './pages/PushItemPage';
 import PushAlertPage from './pages/PushAlertPage';
 
 function App() {
@@ -16,9 +15,9 @@ function App() {
     <Routes>
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<MainPage />} />
+        <Route path="/:itemId" element={<MainPage />} />
         <Route path="/category/:categoryName" element={<CategoryPage />} />
         <Route path="/items" element={<EntireItemPage />} />
-        <Route path="/items/:itemId" element={<PushItemPage />} />
         <Route path="/push" element={<PushAlertPage />} />
       </Route>
       <Route path="/register" element={<RegisterPage />} />
