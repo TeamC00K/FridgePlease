@@ -44,8 +44,7 @@ def getCropImage(img, cor):
 def addItem():
     """
     식료품 구매 시 넘겨받은 정보들을 DB에 저장하는 함수
-    수량도 어지간하면 넘겨줬으면 함. 카테고리는 구매페이지 랜더링할 때 넘겨줄 예정
-    req: userId, category, subCategory, totalVol (수량)
+    req: userId, category, subCategory, name
     res: Response(status=200) 등으로 성공, 실패여부를 status로 구분
     """
     #식료품 구매 시 넘겨받을 정보들 
@@ -56,7 +55,7 @@ def addItem():
     itemCategory = Category.query.filter_by(category=category, subCategory = subCategory).first()
     mfgDate = datetime.now()
 
-    new_item = Item(userId = userId, mfgDate=mfgDate, expDate = mfgDate + itemCategory.expDate, countable = itemCategory.countable, consumptionRate = 1, name = itemCategory.name)
+    new_item = Item(userId = userId, mfgDate=mfgDate, expDate = mfgDate + itemCategory.expDate, countable = itemCategory.countable, consumptionRate = 1, name = name)
 
     # add the new item to the database
     db.session.add(new_item)
