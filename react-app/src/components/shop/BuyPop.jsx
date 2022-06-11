@@ -43,6 +43,12 @@ const BuyPop = React.forwardRef((props, ref) => {
     onClose();
   };
 
+  let price = 0;
+  buyList.map(item => {
+    price += item.price;
+    return 0;
+  });
+
   useEffect(() => {
     console.log(buyList);
   }, []);
@@ -51,9 +57,8 @@ const BuyPop = React.forwardRef((props, ref) => {
     <Box sx={style} ref={ref} tabIndex={-1}>
       <Box sx={{ overflowY: 'scroll', height: 1 }}>
         {buyList.map((item, index) => (
-          <>
+          <Box key={index}>
             <Box
-              key={index}
               sx={{
                 height: '12vh',
                 paddingX: '1vh',
@@ -136,7 +141,7 @@ const BuyPop = React.forwardRef((props, ref) => {
                   </Box>
                 </Box>
               ))}
-          </>
+          </Box>
         ))}
       </Box>
       <Button
@@ -146,7 +151,7 @@ const BuyPop = React.forwardRef((props, ref) => {
         size="large"
         sx={{ marginTop: 2, p: 1 }}
       >
-        구매
+        {price}원 결제하기
       </Button>
     </Box>
   );

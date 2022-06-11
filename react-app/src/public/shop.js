@@ -6,11 +6,11 @@ const shopList = {
     imgSrc: '/shop/apple.jpg',
     price: 10000,
   },
-  apple2: {
-    name: '사과2',
+  orange: {
+    name: '오렌지',
     category: 'fruit',
     subCategory: 'fruit1',
-    imgSrc: '/shop/apple.jpg',
+    imgSrc: '/shop/orange.png',
     price: 10000,
   },
   apple3: {
