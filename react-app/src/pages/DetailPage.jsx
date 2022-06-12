@@ -11,6 +11,7 @@ import Slider from '@mui/material/Slider';
 
 import categorys from '../public/category';
 import { updateItemConsumption, deleteItem } from '../modules/items';
+import Potato from '../components/public/Potato';
 
 const style = {
   position: 'absolute',
@@ -23,6 +24,7 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 1,
+  overflowY: 'scroll',
 };
 
 const DetailPage = React.forwardRef((props, ref) => {
@@ -96,6 +98,7 @@ const DetailPage = React.forwardRef((props, ref) => {
           onChangeCommitted={updateConsumptionRate}
         />
       </Box>
+      {item.name === '감자' && <Potato />}
     </Card>
   );
 });
