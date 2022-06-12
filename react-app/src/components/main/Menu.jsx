@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -24,9 +25,11 @@ function Menu() {
         sx={{ height: '20vh', p: 1 }}
       >
         <Grid item xs={6}>
-          <Button fullWidth sx={{ height: 1, bgcolor: green[200] }}>
-            상품 구매
-          </Button>
+          <Link to="/shop">
+            <Button fullWidth sx={{ height: 1, bgcolor: green[200] }}>
+              상품 구매
+            </Button>
+          </Link>
         </Grid>
         <Grid item xs={6}>
           <Button

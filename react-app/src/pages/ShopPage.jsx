@@ -33,6 +33,10 @@ function ShopPage() {
     setBuyList([...tmpList]);
   };
 
+  const cleanBuy = index => {
+    setBuyList([]);
+  };
+
   useEffect(() => {
     console.log(buyList);
   }, [buyList]);
@@ -40,7 +44,7 @@ function ShopPage() {
   return (
     <Box sx={{ pb: 7 }}>
       <Modal open={open} onClose={handleClose}>
-        <BuyPop buyList={buyList} onClose={handleClose} delBuy={delBuy} />
+        <BuyPop buyList={buyList} delBuy={delBuy} cleanBuy={cleanBuy} />
       </Modal>
       <Header title="Shop" type="shop" />
       <Grid container spacing={1} sx={{ p: 1 }}>

@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -11,6 +10,7 @@ import { buyItem } from '../../lib/api/item';
 import { userSelector } from '../../modules/user';
 import { itemSelector, initItems } from '../../modules/items';
 import categorys from '../../public/category';
+import AddComplete from '../public/AddComplete';
 
 const style = {
   position: 'absolute',
@@ -29,18 +29,25 @@ const style = {
 
 const BuyPop = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
-  const { buyList, onClose, delBuy } = props;
+  const { buyList, delBuy, cleanBuy } = props;
 
   const { itemList } = useSelector(itemSelector);
   const { id } = useSelector(userSelector);
 
+  const [fin, setFin] = useState(false);
+  const [buyNum, setBuyNum] = useState(0);
+
   const buy = async () => {
+    let buyCnt = 0;
     await buyList.map(async item => {
+      buyCnt += 1;
       item.userId = id;
       await buyItem(item);
     });
     await dispatch(initItems(id));
-    onClose();
+    setBuyNum(buyCnt);
+    setFin(true);
+    cleanBuy();
   };
 
   let price = 0;
@@ -52,6 +59,10 @@ const BuyPop = React.forwardRef((props, ref) => {
   useEffect(() => {
     console.log(buyList);
   }, []);
+
+  if (fin) {
+    return <AddComplete num={buyNum} />;
+  }
 
   return (
     <Box sx={style} ref={ref} tabIndex={-1}>
@@ -159,8 +170,8 @@ const BuyPop = React.forwardRef((props, ref) => {
 
 BuyPop.propTypes = {
   buyList: PropTypes.array.isRequired,
-  onClose: PropTypes.func.isRequired,
   delBuy: PropTypes.func.isRequired,
+  cleanBuy: PropTypes.func.isRequired,
 };
 
 export default BuyPop;
