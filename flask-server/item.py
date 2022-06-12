@@ -54,10 +54,7 @@ def addItem():
     name = request.json['name']
     itemCategory = Category.query.filter_by(category=category, subCategory = subCategory).first()
     mfgDate = datetime.now()
-
-    new_item = Item(userId = userId, mfgDate=mfgDate, expDate = mfgDate + itemCategory.expDate, countable = itemCategory.countable, consumptionRate = 1, name = name)
-
-    # add the new item to the database
+    new_item = Item(userId = userId, name = name, mfgDate = mfgDate, category = category, subCategory = subCategory, expDate = mfgDate + timedelta(days = itemCategory.expDate), countable = itemCategory.countable, consumptionRate = 1)
     db.session.add(new_item)
     db.session.commit()
     print("구매 완료")
