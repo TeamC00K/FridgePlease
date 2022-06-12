@@ -13,6 +13,7 @@ import { userSelector } from '../../modules/user';
 
 import CroppedItem from './CroppedItem';
 import ConfirmItems from './ConfirmItems';
+import AddComplete from '../public/AddComplete';
 
 const style = {
   position: 'absolute',
@@ -51,6 +52,9 @@ const ItemRegister = React.forwardRef((props, ref) => {
   const [imageSize, setImageSize] = useState();
   const [sendData, setSendData] = useState();
   const [returnSet, setReturnSet] = useState();
+
+  const [fin, setFin] = useState(false);
+  const [buyNum, setBuyNum] = useState(0);
 
   useEffect(() => {
     console.log(returnSet);
@@ -151,6 +155,10 @@ const ItemRegister = React.forwardRef((props, ref) => {
     );
   }
 
+  if (fin) {
+    return <AddComplete num={buyNum} />;
+  }
+
   return (
     <Box sx={style1} ref={ref} tabIndex={-1}>
       {Object.entries(returnSet).map(([index, item]) => {
@@ -167,7 +175,12 @@ const ItemRegister = React.forwardRef((props, ref) => {
           />
         );
       })}
-      <ConfirmItems items={returnSet} onClose={onClose} />
+      <ConfirmItems
+        items={returnSet}
+        onClose={onClose}
+        setBuyNum={setBuyNum}
+        setFin={setFin}
+      />
     </Box>
   );
 });
