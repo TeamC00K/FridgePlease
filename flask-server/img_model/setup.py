@@ -4,7 +4,8 @@ import os
 from dotenv import load_dotenv
 import cv2
 from PIL import Image
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model #tensorflow 2.n version 기준으로 import, 1.n version이라면 아래 주석코드를 통해 import.
+# from tensorflow.python.keras.models import load_model
 from skimage.transform import resize
 import matplotlib.pyplot as plt
 import torch
@@ -49,6 +50,7 @@ def Classification(image):
     out = classification_model.predict(res)
     temp = out*100/np.sum(out)
     # print("-----------test score--------- : ",temp)
-    if np.max(temp) < 99:
+    # np.max(temp) < num :(정확도 임계값을 넘지 못할 경우 unknown으로 state setting)
+    if np.max(temp) < 95:
         return "unknown"
     return Category[np.argmax(out)]
